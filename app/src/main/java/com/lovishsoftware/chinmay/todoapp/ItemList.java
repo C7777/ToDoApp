@@ -1,5 +1,6 @@
 package com.lovishsoftware.chinmay.todoapp;
 
+import android.content.Context;
 import android.util.Log;
 
 /**
@@ -12,24 +13,22 @@ public class ItemList {
     private String dataList;
     private  int done;
 
-    public int getDone() {
-        Log.e("ItemList", "Inside done setter method");
-        return done;
-    }
-
-    public void setDone(int done)
-    {
-        Log.e("ItemList", "Inside done setter method");
-        this.done = done;
-    }
-
-
-
     public ItemList() {
         super();
         Log.e("ItemList", "Inside ItemList constructor");
     }
 
+    public int getListId()
+    {
+        Log.e("ItemList", "Inside listId getter method");
+        return listId;
+    }
+
+    public void setListId(int listId) {
+
+        Log.e("ItemList", "Inside listId setter method");
+        this.listId = listId;
+    }
 
     public String getDataList() {
 
@@ -43,11 +42,16 @@ public class ItemList {
         this.dataList = dataList;
     }
 
-    public int getListId() {
-        return listId;
+    public int getDone() {
+        Log.e("ItemList", "Inside done getter method");
+        return done;
     }
 
-    public void setListId(int listId) {
-        this.listId = listId;
+    public void setDone(int done)
+    {
+        Log.e("ItemList", "Inside done setter method");
+        this.done = done;
     }
+
+
 }

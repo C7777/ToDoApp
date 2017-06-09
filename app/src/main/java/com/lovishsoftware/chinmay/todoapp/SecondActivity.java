@@ -2,7 +2,6 @@ package com.lovishsoftware.chinmay.todoapp;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -19,14 +18,15 @@ public class SecondActivity extends AppCompatActivity{
     Button button;
     EditText editText;
     DbListHelper dbListHelper;
-   // String list;
+    String list;
     @Override
     protected void onCreate( Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_second);
 
         editText= (EditText) findViewById(R.id.edittext);
-        //list=editText.getText();
+        list=editText.getText().toString();
+        Log.e("SecondActivity", "list: "+list.toString());
         dbListHelper=new DbListHelper(this);
 
         button= (Button) findViewById(R.id.button);
