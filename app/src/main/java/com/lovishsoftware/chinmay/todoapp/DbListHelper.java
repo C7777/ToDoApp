@@ -56,7 +56,7 @@ public class DbListHelper extends SQLiteOpenHelper {
     }
 
     public List<ItemList> getPendingData() {
-    List<ItemList> pendingItemList = new ArrayList();
+        List<ItemList> pendingItemList = new ArrayList();
         Log.e("DbListHelper", "Inside getPendingData method");
         SQLiteDatabase db = this.getReadableDatabase();
         String read = "SELECT * FROM " + DB_TABLE + " WHERE DONE= " + 0;
@@ -85,9 +85,9 @@ public class DbListHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN2, 1);
-        String updateQuery = "WHERE ID=" + id;
+        String updateQuery = "ID=" + id;
         int updateResult = db.update(DB_TABLE, contentValues, updateQuery, null);
-        Log.e("DbListHelper", "value" + updateResult);
+        Log.e("DbListHelper", "List updated with value " + updateResult);
         db.close();
 
         if (updateResult == 1) {
@@ -100,10 +100,10 @@ public class DbListHelper extends SQLiteOpenHelper {
 
     public List<ItemList> fetchFinishedData() {
 
-    List<ItemList> finishedItemList = new ArrayList();
+        List<ItemList> finishedItemList = new ArrayList();
         Log.e("DbListHelper", "Inside fetchFinishedData method");
         SQLiteDatabase db = getReadableDatabase();
-        String read = "SELECT * FROM " + DB_TABLE + " WHERE ID > " + 5;
+        String read = "SELECT * FROM " + DB_TABLE + " WHERE DONE = " +1;
         Cursor cursor = db.rawQuery(read, null);
         while (cursor.moveToNext()) {
             Log.e("DbListHelper", "Inside fetchFinishedData While");

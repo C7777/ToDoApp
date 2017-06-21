@@ -13,82 +13,55 @@ import android.view.ViewGroup;
 
 import java.util.List;
 
-
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link Finished.OnFragmentInteractionListener} interface
- * to handle interaction events.
- */
 public class Finished extends Fragment {
 
-    private RecyclerView finishedRecyclerView;
-    private FinishedListAdapter finishedListAdapter;
-    private OnFragmentInteractionListener mListener;
+    private List<ItemList> finishedList;
+    View view;
+    RecyclerView finishedRecyclerView;
+    RecyclerView.LayoutManager iLayoutManager;
+    FinishedListAdapter finishedListAdapter;
 
-    public Finished() {
-        // Required empty public constructor
+    public Finished(List<ItemList> finishedList) {
+        Log.e("Finished", "Inside finished constructor");
+        this.finishedList=finishedList;
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         Log.e("Finished", "Inside onCreateView");
-        View view= inflater.inflate(R.layout.fragment_finished, container, false);
-        finishedRecyclerView= (RecyclerView)view.findViewById(R.id.finishedRecyclerView);
-        RecyclerView.LayoutManager iLayoutManager = new LinearLayoutManager(getActivity());
+        view = inflater.inflate(R.layout.fragment_finished, container, false);
+        finishedRecyclerView = (RecyclerView) view.findViewById(R.id.finishedRecyclerView);
+        iLayoutManager = new LinearLayoutManager(getActivity());
         finishedRecyclerView.setLayoutManager(iLayoutManager);
         Log.e("Finished", "setLayoutManager finished");
+        finishedListAdapter = new FinishedListAdapter(finishedList);
+        Log.e("Finished", "finishedListAdapter initialised");
+        finishedListAdapter.notifyDataSetChanged();
+        Log.e("Finished", "notifyDataSetChanged called");
         finishedRecyclerView.setAdapter(finishedListAdapter);
         Log.e("Finished", "setAdapter finished");
         return view;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
     }
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
 
-    public void showFinishedData(List<ItemList> finishedList) {
+    public void showUpdatedFinishedList(List<ItemList> finishedList) {
 
-        Log.e("Finished", "Inside showPendingData method");
-        finishedListAdapter = new FinishedListAdapter(getActivity(), finishedList);
-        Log.e("Finished", "finishedListAdapter finished");
+        finishedRecyclerView = (RecyclerView) view.findViewById(R.id.finishedRecyclerView);
+        iLayoutManager = new LinearLayoutManager(getActivity());
+        finishedRecyclerView.setLayoutManager(iLayoutManager);
+        Log.e("Finished", "setLayoutManager finished");
+        finishedListAdapter = new FinishedListAdapter(finishedList);
+        Log.e("Finished", "finishedListAdapter initialised");
         finishedListAdapter.notifyDataSetChanged();
-        Log.e("Finished", "notifyDataSetChanged finished");
-    }
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
+        Log.e("Finished", "notifyDataSetChanged called");
+        finishedRecyclerView.setAdapter(finishedListAdapter);
+        Log.e("Finished", "setAdapter finished");
     }
 }

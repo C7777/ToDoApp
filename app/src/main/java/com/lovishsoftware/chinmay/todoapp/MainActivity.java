@@ -14,34 +14,19 @@ import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements Pending.OnFragmentInteractionListener, Finished.OnFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity /*implements Pending.OnFragmentInteractionListener, Finished.OnFragmentInteractionListener */{
 
-    /**
-     * The {@link android.support.v4.view.PagerAdapter} that will provide
-     * fragments for each of the sections. We use a
-     * {@link FragmentPagerAdapter} derivative, which will keep every
-     * loaded fragment in memory. If this becomes too memory intensive, it
-     * may be best to switch to a
-     * {@link android.support.v4.app.FragmentStatePagerAdapter}.
-     */
-
-    /**
-     * The {@link ViewPager} that will host the section contents.
-     */
-    private ViewPager mViewPager;
-    private SectionsPagerAdapter mSectionsPagerAdapter;
     private static final int code = 10;
     List<ItemList> list1 = new ArrayList();
     List<ItemList> list2 = new ArrayList();
     List<ItemList> pendingList = new ArrayList();
     List<ItemList> finishedList = new ArrayList();
     DbListHelper dbListHelper = new DbListHelper(this);
-    ;
+    Pending pending;
+    Finished finished;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,12 +38,9 @@ public class MainActivity extends AppCompatActivity implements Pending.OnFragmen
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         Log.e("MainActivity", "setSupportActionBar finished");
-        // Create the adapter that will return a fragment for each of the three
-        // primary sections of the activity.
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+        SectionsPagerAdapter mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
         Log.e("MainActivity", "mSectionsPagerAdapter finished");
-        // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager) findViewById(R.id.container);
+        ViewPager mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
         Log.e("MainActivity", "mViewPager finished");
 
@@ -83,9 +65,9 @@ public class MainActivity extends AppCompatActivity implements Pending.OnFragmen
         list1 = dbListHelper.getPendingData();
         int pendingSize = list1.size();
         int pendingIndex = 0;
-        Log.e("MainActivity", "size " + pendingSize);
+        Log.e("MainActivity", "pendingListSize in onCreate " + pendingSize);
         while (pendingIndex < pendingSize) {
-            Log.e("MainActivity", "Inside while");
+            Log.e("MainActivity", "Inside pendingList while block in onCreate");
             pendingList.add(list1.get(pendingIndex));
             pendingIndex++;
 
@@ -96,29 +78,13 @@ public class MainActivity extends AppCompatActivity implements Pending.OnFragmen
         list2 = dbListHelper.fetchFinishedData();
         int finishedSize = list2.size();
         int finishedIndex = 0;
-        Log.e("MainActivity", "size " + finishedSize);
+        Log.e("MainActivity", "finishedListSize in onCreate " + finishedSize);
         while (finishedIndex < finishedSize) {
-            Log.e("MainActivity", "Inside finished while");
+            Log.e("MainActivity", "Inside finishedList while block in onCreate");
             finishedList.add(list2.get(finishedIndex));
             finishedIndex++;
 
         }
-        //dbListHelper
-        /*Cursor cursor=  dbListHelper.getPendingData();
-        while (cursor.moveToNext())
-        {
-            Log.e("MainActivity", "Inside While2");
-            ItemList pendingListData = new ItemList();
-            pendingListData.setListId(cursor.getInt(0));
-            pendingListData.setDataList(cursor.getString(1));
-            pendingListData.setDone(cursor.getInt(2));
-            Log.e("Main activity", "ID: " + pendingListData.getListId());
-            Log.e("Main activity", "Text: " + pendingListData.getDataList());
-            Log.e("Main activity", "done: " + pendingListData.getDone());
-            pendingItemList.add(pendingListData);
-            Log.e("Main activity", "itemList add finished");
-
-        }*/
 
     }
 
@@ -130,15 +96,14 @@ public class MainActivity extends AppCompatActivity implements Pending.OnFragmen
         if (requestCode == 10) {
             if (resultCode == Activity.RESULT_OK) {
                 Log.e("MainActivity", "Inside onActivityResult");
-                //dbListHelper =new DbListHelper(this);
                 list1.clear();
                 pendingList.clear();
                 list1 = dbListHelper.getPendingData();
                 int pendingSize = list1.size();
                 int pendingIndex = 0;
-                Log.e("MainActivity", "size " + pendingSize);
+                Log.e("MainActivity", "pendingListSize in onActivityResult is " + pendingSize);
                 while (pendingIndex < pendingSize) {
-                    Log.e("MainActivity", "Inside pending while");
+                    Log.e("MainActivity", "Inside pending while block in onActivityResult");
                     pendingList.add(list1.get(pendingIndex));
                     pendingIndex++;
 
@@ -149,29 +114,14 @@ public class MainActivity extends AppCompatActivity implements Pending.OnFragmen
                 list2 = dbListHelper.fetchFinishedData();
                 int finishedSize = list2.size();
                 int finishedIndex = 0;
-                Log.e("MainActivity", "size " + finishedSize);
+                Log.e("MainActivity", "finishedListSize in onActivityResult is " + finishedSize);
                 while (finishedIndex < finishedSize) {
-                    Log.e("MainActivity", "Inside finished while");
+                    Log.e("MainActivity", "Inside finished while block in onActivityResult");
                     finishedList.add(list2.get(finishedIndex));
                     finishedIndex++;
 
                 }
 
-                /*while (cursor.moveToNext())
-                {
-
-                    Log.e("MainActivity", "Inside While2");
-                    ItemList pendingListData = new ItemList();
-                    pendingListData.setListId(cursor.getInt(0));
-                    pendingListData.setDataList(cursor.getString(1));
-                    pendingListData.setDone(cursor.getInt(2));
-                    Log.e("Main activity", "ID: " + pendingListData.getListId());
-                    Log.e("Main activity", "Text: " + pendingListData.getDataList());
-                    Log.e("Main activity", "done: " + pendingListData.getDone());
-                    pendingItemList.add(pendingListData);
-                    Log.e("Main activity", "itemList add finished");
-
-                }*/
             }
             if (resultCode == Activity.RESULT_CANCELED) {
 
@@ -179,51 +129,43 @@ public class MainActivity extends AppCompatActivity implements Pending.OnFragmen
         }
     }
 
-    @Override
-    public void onFragmentInteraction(Uri uri) {
+    public void showUpdatedPendingAndFinishedData() {
+
+        Log.e("MainActivity", "Inside showUpdatedPendingAndFinishedData");
+
+        list1.clear();
+        pendingList.clear();
+        list1 = dbListHelper.getPendingData();
+        int pendingSize = list1.size();
+        int pendingIndex = 0;
+        Log.e("MainActivity", "pendingListSize inside showUpdatedPendingAndFinishedData method is " + pendingSize);
+        while (pendingIndex < pendingSize) {
+            Log.e("MainActivity", "Inside pending while block in showUpdatedPendingAndFinishedData");
+            pendingList.add(list1.get(pendingIndex));
+            pendingIndex++;
+
+        }
+       // pending=new Pending(pendingList);
+        pending.showUpdatedPendingList(pendingList);
+
+        list2.clear();
+        finishedList.clear();
+        list2 = dbListHelper.fetchFinishedData();
+        int finishedSize = list2.size();
+        int finishedIndex = 0;
+        Log.e("MainActivity", "finishedListSize inside showUpdatedPendingAndFinishedData method is " + finishedSize);
+        while (finishedIndex < finishedSize) {
+            Log.e("MainActivity", "Inside finished while block in showUpdatedPendingAndFinishedData");
+            finishedList.add(list2.get(finishedIndex));
+            finishedIndex++;
+
+        }
+        //finished=new Finished(finishedList);
+        finished.showUpdatedFinishedList(finishedList);
 
     }
 
 
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-  /*  public static class PlaceholderFragment extends Fragment {
-        *//**
-     * The fragment argument representing the section number for this
-     * fragment.
-     *//*
-        private static final String ARG_SECTION_NUMBER = "section_number";
-
-        public PlaceholderFragment() {
-        }
-
-        *//**
-     * Returns a new instance of this fragment for the given section
-     * number.
-     *//*
-        public static PlaceholderFragment newInstance(int sectionNumber) {
-            PlaceholderFragment fragment = new PlaceholderFragment();
-            Bundle args = new Bundle();
-            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-            fragment.setArguments(args);
-            return fragment;
-        }
-
-        *//*@Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-            textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
-            return rootView;
-        }*//*
-    }*/
-
-    /**
-     * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
-     * one of the sections/tabs/pages.
-     */
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
         public SectionsPagerAdapter(FragmentManager fm) {
@@ -232,30 +174,24 @@ public class MainActivity extends AppCompatActivity implements Pending.OnFragmen
 
         @Override
         public Fragment getItem(int position) {
-            // getItem is called to instantiate the fragment for the given page.
-            // Return a PlaceholderFragment (defined as a static inner class below).
             switch (position) {
                 case 0:
                     Log.e("Main activity", "inside pending fragment");
-                    Pending pending = new Pending();
-                    pending.showPendingData(pendingList);
+                     pending = new Pending(pendingList);
                     return pending;
 
 
                 case 1:
                     Log.e("Main activity", "inside finished fragment");
-                    Finished finished = new Finished();
-                    finished.showFinishedData(finishedList);
+                    finished = new Finished(finishedList);
                     return finished;
             }
             return null;
-            //return PlaceholderFragment.newInstance(position + 1);
 
         }
 
         @Override
         public int getCount() {
-            // Show 2 total pages.
             return 2;
         }
 
