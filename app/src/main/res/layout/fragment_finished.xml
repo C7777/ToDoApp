@@ -2,17 +2,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="#FFF1060E"
     tools:context="com.lovishsoftware.chinmay.todoapp.Finished">
 
     <TextView
         android:id="@+id/finishedList"
-        android:textColor="@color/colorPrimary"
+        android:textColor="#fff"
         android:textSize="25sp"
         android:textStyle="bold"
         android:layout_marginLeft="200dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
-
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/finishedRecyclerView"
